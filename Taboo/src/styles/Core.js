@@ -1,19 +1,6 @@
 import { StyleSheet } from 'react-native';
-
-const colours = {
-  primary: '#48ABFF',
-  lightText: '#FFFFFF',
-  lightBg: '#f4f4f4',
-  danger: '#D9534F',
-  white: '#FFFFFF',
-  lightGrey: '#AAA'
-}
-
-const fonts = {
-  serif: 'Lobster',
-  sansSerif: 'Raleway',
-  sansSerifBold: 'Raleway-Bold',
-}
+import { colours } from './colours';
+import { fonts } from './fonts';
 
 const theme = {
   color: colours.lightText,
@@ -47,6 +34,9 @@ export default StyleSheet.create({
   settingInputText: {
     fontFamily: fonts.sansSerif,
     fontSize: 18,
+  },
+  serif: {
+    fontFamily: fonts.serif,
   },
   sansSerif: {
     fontFamily: fonts.sansSerif,
@@ -140,6 +130,10 @@ export default StyleSheet.create({
   danger: {
     color: colours.danger,
     backgroundColor: colours.danger,
+  },
+  success: {
+    color: colours.success,
+    backgroundColor: colours.success,
   },
   bottomModal: {
     ...theme,

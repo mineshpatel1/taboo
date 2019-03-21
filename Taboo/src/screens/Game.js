@@ -2,7 +2,8 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux';
 import { bindActionCreators } from 'redux';
 import { Alert, Animated, Easing, View, ScrollView } from 'react-native';
-import { Title, Content, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { Title, Content, Left, Right, Body, Icon, Text } from 'native-base';
+import Button from '../components/Button';
 import Timer from '../components/Timer';
 import HandleBack from '../components/HandleBack';
 import ThemeContainer from '../components/ThemeContainer';
@@ -235,31 +236,25 @@ class Game extends Component {
                         <Text style={[style.lightText20]}>{'Guessing Team: ' + currentTeam.name}</Text>
                       </View>
                       <Button
-                        full light iconRight rounded
+                        label='Start Round'
                         onPress={() => {
                           this.startRound(currentTeam, props.game.settings.roundLength);
                         }}
-                      >
-                        <Text>Start Round</Text>
-                        <Icon active name="play" />
-                      </Button>
+                      />
                     </View>
                 }
                 {
                   gameOver && (
                     <View style={style.f1}>
                       <View style={[style.f1, style.center]}>
-                        <Text style={[style.lightText20b]}>{gameOverMsg}</Text>
+                        <Text style={[style.light, style.serifHeading]}>{gameOverMsg}</Text>
                       </View>
                       <Button
-                        full light iconRight rounded
+                        label = 'Back to Home'
                         onPress={() => {
                           props.navigation.navigate('Home');
                         }}
-                      >
-                        <Text>Back to Home</Text>
-                        <Icon active name="home" />
-                      </Button>
+                      />
                     </View>
                   )
                 }
