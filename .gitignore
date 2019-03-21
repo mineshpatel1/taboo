@@ -1,0 +1,9 @@
+Taboo/node_modules/**/*
+Taboo/.expo/*
+Taboo/npm-debug.*
+*.jks
+*.p12
+*.key
+*.mobileprovision
+Taboo/.watchmanconfig
+keystore.txt
