@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Image } from 'react-native';
-import { Header, Title, Content, Footer, FooterTab, Button, Left, Right, Body, Icon, Text } from 'native-base';
+import { View, Image, TouchableOpacity } from 'react-native';
+import { Header, Title, Content, Footer, FooterTab, Left, Right, Body, Icon, Text } from 'native-base';
 import ThemeContainer from '../components/ThemeContainer';
-import styles from '../styles/Core';
+import Button from '../components/Button';
+import style from '../styles/Core';
 
 const menu = [
   {
@@ -23,15 +24,9 @@ const renderButton = (btn, i, props) => {
   }
   return (
     <Button
-      key={i} block rounded
-      light style={{marginTop: 15}}
+      key={i} style={{marginBottom: 15}} label={btn.text} icon={btn.icon}
       onPress={() => props.navigation.navigate(btn.page)}
-    >
-      <Text style={{marginLeft: 10}}>{btn.text}</Text>
-      <Right style={{marginRight: 20}}>
-        <Icon style={{fontSize: 25}} name={btn.icon} />
-      </Right>
-    </Button>
+    />
   )
 }
 
@@ -39,13 +34,13 @@ class Home extends React.Component {
   render() {
     return (
       <ThemeContainer>
-        <Content contentContainerStyle={[styles.theme, styles.container, {
+        <Content contentContainerStyle={[style.theme, style.container, {
           flex: 1, justifyContent: 'center', alignItems: 'center'
         }]}>
-          <View style={{width: 400, height: 300}}>
-            <Image style={{width: 400, height: 150}} source={require('../../assets/titleImage.png')} />
+          <View style={{marginTop: 300, width: 400, height: 300}}>
+            <Image style={{width: 400, height: 150}} source={require('../../assets/images/title.png')} />
           </View>
-          <View style={{width: 300, height: 100}}>
+          <View style={{width: 300, height: 300}}>
             {menu.map((btn, i) => renderButton(btn, i, this.props))}
           </View>
         </Content>
