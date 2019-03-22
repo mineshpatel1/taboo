@@ -18,17 +18,22 @@ export default class Timer extends React.Component {
 
     this.state = {
       timer: props.length,
+      paused: props.paused,
     };
 
     setInterval(() => {
       if (this.mounted) {
-        if (this.state.timer > 0) {
+        if (this.state.timer > 0 && !this.state.paused) {
           this.setState(prev => (
             { timer: prev.timer - 1 }
           ));
         }
       }
     }, 1000);
+  }
+
+  togglePaused() {
+    this.setState({ paused: !this.state.paused });
   }
 
   reset() {

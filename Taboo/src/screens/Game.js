@@ -9,6 +9,7 @@ import HandleBack from '../components/HandleBack';
 import ThemeContainer from '../components/ThemeContainer';
 import Header from '../components/Header';
 import ConfirmButtons from '../components/ConfirmButtons';
+import ConfirmModal from '../components/ConfirmModal';
 import { increment, pass, decrement, nextTurn } from '../actions/GameActions';
 import utils from '../utils';
 import style from '../styles/Core';
@@ -29,24 +30,45 @@ class Game extends Component {
       roundTime: props.game.settings.roundLength,
       progress: new Animated.Value(100),
       background: new Animated.Value(0),
+      paused: false,
+      timeRemaining: 0,
     };
+
+    // this.progressListener = this.state.progress.addListener((val) => {
+    //   this.progressValue = val;
+    // });
   }
 
   onBack = () => {
     if (!this.props.game.gameOver()) {
-      Alert.alert(
-        "Game progress will be lost if you return.",
-        "Are you sure you want to go to the Home screen?",
-        [
-          { text: "Keep Playing", onPress: () => {}, style: "cancel" },
-          { text: "Go Home", onPress: () => this.props.navigation.navigate('Home') },
-        ],
-        { cancelable: false },
-      );
+      this.pause();
       return true;
     } else {
       this.props.navigation.navigate('Home');
       return true;
+    }
+  }
+
+  pause = () => {
+    let _this = this;
+    _this.setState({ paused: true });
+
+    if (this.state.inPlay) {
+      this.timer.togglePaused();
+      this.state.progress.stopAnimation((val) => {
+        this.progressValue = val;
+      });
+    }
+  }
+
+  unpause() {
+    this.setState({ paused: false });
+    if (this.state.inPlay) {
+      this.timer.togglePaused();
+      this.animateProgress(
+        0, this.progressValue * this.props.game.settings.roundLength * 10,
+        this.endRound
+      );
     }
   }
 
@@ -57,17 +79,19 @@ class Game extends Component {
   }
 
   endRound = () => {
-    this.props.nextTurn(this.state.currentTeam);
-    this.setState({inPlay: false});
-    this.animateScoreBars(this.props.game.teams);
-    if (!this.props.game.gameOver()) {
-      this.animateBg(this.props.game.currentIndex());
-    } else {
-      this.animateBg(
-        utils.indexOfArray(
-          this.props.game.teams, 'name', this.props.game.winner().name,
-        )
-      );
+    if (!this.state.paused) {
+      this.props.nextTurn(this.state.currentTeam);
+      this.setState({inPlay: false});
+      this.animateScoreBars(this.props.game.teams);
+      if (!this.props.game.gameOver()) {
+        this.animateBg(this.props.game.currentIndex());
+      } else {
+        this.animateBg(
+          utils.indexOfArray(
+            this.props.game.teams, 'name', this.props.game.winner().name,
+          )
+        );
+      }
     }
   }
 
@@ -130,6 +154,16 @@ class Game extends Component {
     return (
       <HandleBack onBack={this.onBack}>
         <ThemeContainer>
+          <ConfirmModal
+            text={"Game progress will be lost.\n\nAre you sure you want to go back?"}
+            isVisible={state.paused}
+            onRequestClose={() => {this.unpause()}}
+            onCancel={() => {this.unpause()}}
+            onSuccess={() => {
+              this.unpause();
+              this.props.navigation.navigate('Home');
+            }}
+          />
           <Animated.View style={[style.f1, {
             backgroundColor: state.background.interpolate({
               inputRange: utils.sequence(props.game.teams.length),

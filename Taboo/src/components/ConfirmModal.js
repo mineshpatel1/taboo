@@ -25,12 +25,12 @@ export default class ConfirmModal extends React.Component {
               <Button
                 style={styles.h100f50}
                 full success onPress={this.props.onSuccess}>
-                <Icon name="checkmark-circle" style={styles.bigIcon}></Icon>
+                <Icon name="checkmark" style={styles.bigIcon}></Icon>
               </Button>
               <Button
                 style={styles.h100f50}
                 full danger onPress={this.props.onCancel}>
-                <Icon name="close-circle" style={styles.bigIcon}></Icon>
+                <Icon name="close" style={styles.bigIcon}></Icon>
               </Button>
             </View>
           </Col>

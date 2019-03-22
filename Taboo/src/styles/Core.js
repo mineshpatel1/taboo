@@ -94,18 +94,18 @@ export default StyleSheet.create({
   },
   modalBackdrop: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 0, 0.8)',
+    backgroundColor: 'rgba(0, 0, 0, 0.85)',
   },
   modalText: {
     color: colours.lightText,
+    fontFamily: fonts.sansSerif,
     padding: 50,
-    fontWeight: 'bold',
-    fontSize: 30
+    fontSize: 24,
   },
   columnBottom: {
     flexDirection: 'column',
     justifyContent: 'flex-end',
-    alignItems: 'center'
+    alignItems: 'center',
   },
   row100: {
     height: 100,
