@@ -16,35 +16,36 @@ export default class ConfirmButtons extends React.Component {
 
   render() {
     let { props } = this;
+    let {style, ...otherProps} = props;
     let success = false;
     let danger = false;
 
-    if (props.coloured) {
+    if (otherProps.coloured) {
       success = true;
       danger = true;
     }
 
-    let width = props.width;
-    if (props.neutralPress) {
+    let width = otherProps.width;
+    if (otherProps.neutralPress) {
       width = 100;
     }
 
     return (
-      <View style={{ height: 60, justifyContent: 'center' }}>
+      <View style={[style, { height: 60, justifyContent: 'center' }]}>
         <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
           <Button
-            style={{width: width}} icon={props.yesIcon} onPress={props.yesPress} success={props.coloured}
-            disabled={props.yesDisabled}
+            style={{width: width}} icon={otherProps.yesIcon} onPress={otherProps.yesPress} success={otherProps.coloured}
+            disabled={otherProps.yesDisabled}
            />
           {
-            props.neutralPress &&
+            otherProps.neutralPress &&
             <Button
-              style={{width: width}} icon={props.neutralIcon} onPress={props.neutralPress} disabled={props.neutralDisabled}
+              style={{width: width}} icon={otherProps.neutralIcon} onPress={otherProps.neutralPress} disabled={otherProps.neutralDisabled}
             />
           }
           <Button
-            style={{width: width}} icon={props.noIcon} onPress={props.noPress} danger={props.coloured}
-            disabled={props.noDisabled}
+            style={{width: width}} icon={otherProps.noIcon} onPress={otherProps.noPress} danger={otherProps.coloured}
+            disabled={otherProps.noDisabled}
           />
         </View>
       </View>

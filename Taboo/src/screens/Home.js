@@ -25,7 +25,9 @@ const renderButton = (btn, i, props) => {
   return (
     <Button
       key={i} style={{marginBottom: 15}} label={btn.text} icon={btn.icon}
-      onPress={() => props.navigation.navigate(btn.page)}
+      onPress={() => {
+        props.navigation.navigate(btn.page);
+      }}
     />
   )
 }

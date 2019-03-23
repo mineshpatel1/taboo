@@ -33,10 +33,6 @@ class Game extends Component {
       paused: false,
       timeRemaining: 0,
     };
-
-    // this.progressListener = this.state.progress.addListener((val) => {
-    //   this.progressValue = val;
-    // });
   }
 
   onBack = () => {
@@ -161,7 +157,7 @@ class Game extends Component {
             onCancel={() => {this.unpause()}}
             onSuccess={() => {
               this.unpause();
-              this.props.navigation.navigate('Home');
+              this.props.navigation.goBack();
             }}
           />
           <Animated.View style={[style.f1, {

@@ -97,9 +97,8 @@ export default StyleSheet.create({
     backgroundColor: 'rgba(0, 0, 0, 0.85)',
   },
   modalText: {
-    color: colours.lightText,
+    color: colours.black,
     fontFamily: fonts.sansSerif,
-    padding: 50,
     fontSize: 24,
   },
   columnBottom: {

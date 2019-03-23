@@ -1,5 +1,5 @@
 import { createStackNavigator } from 'react-navigation';
-import { fromLeft } from 'react-navigation-transitions';
+import { fromLeft, fadeIn, zoomIn, zoomOut, fromTop } from 'react-navigation-transitions';
 
 import Home from './screens/Home';
 import NewGame from './screens/NewGame';
@@ -14,7 +14,7 @@ const AppNavigator = createStackNavigator({
 },
 {
   initialRouteName: "Home",
-  transitionConfig: () => fromLeft(),
+  transitionConfig: () => fadeIn(),
 });
 
 export default AppNavigator;

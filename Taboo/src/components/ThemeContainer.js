@@ -3,6 +3,7 @@ import { withNavigation } from 'react-navigation';
 import { Container, StyleProvider } from 'native-base';
 import getTheme from '../../native-base-theme/components';
 import material from '../../native-base-theme/variables/material';
+import coreStyle from '../styles/Core';
 
 export default class ThemeContainer extends Component {
   render() {

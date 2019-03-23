@@ -188,9 +188,12 @@ class MyHTMLParser(HTMLParser):
                 self.taboo_words.append(data)
 
     def finish(self):
-        log.info('Adding {} word set...'.format(self.keyword))
-        if len(self.taboo_words) == 5:
-            self.word_set.add(WordSet(self.keyword, self.taboo_words))
+        ws = WordSet(self.keyword, self.taboo_words)
+
+        if len(self.taboo_words) == 5 and ws not in self.word_set:
+            log.info('Adding {} word set...'.format(self.keyword))
+            self.word_set.add(ws)
+
         self.keyword = None
         self.taboo_words = None
         self.keyword_flag = False

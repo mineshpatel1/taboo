@@ -9,9 +9,10 @@
   "dependencies": {
     "@expo/vector-icons": "^9.0.0",
     "expo": "^32.0.0",
-    "native-base": "^2.11.0",
+    "native-base": "^2.12.1",
     "react": "16.5.0",
     "react-native": "https://github.com/expo/react-native/archive/sdk-32.0.0.tar.gz",
+    "react-native-modal": "^9.0.0",
     "react-native-status-bar-height": "^2.2.0",
     "react-navigation": "^3.1.4",
     "react-navigation-transitions": "^1.0.8",
