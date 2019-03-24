@@ -4,6 +4,7 @@ import Modal from "react-native-modal";
 import { Grid, Col, Row, Text, Button, Icon } from 'native-base';
 import ConfirmButtons from '../components/ConfirmButtons';
 import style from '../styles/Core';
+import animationDuration from '../constants';
 
 export default class ConfirmModal extends React.Component {
   static defaultProps = {
@@ -18,8 +19,8 @@ export default class ConfirmModal extends React.Component {
         isVisible={this.props.isVisible}
         animationIn='fadeIn'
         animationOut='fadeOut'
-        animationInTiming={300}
-        animationOutTiming={300}
+        animationInTiming={animationDuration}
+        animationOutTiming={animationDuration}
         onBackButtonPress={this.props.onCancel}
         onBackdropPress={this.props.onCancel}
         style={[style.center]}
@@ -42,26 +43,6 @@ export default class ConfirmModal extends React.Component {
             style={{width: this.props.width}}
           />
         </View>
-
-        {/* <Grid style={styles.modalBackdrop}>
-          <Col style={styles.columnBottom}>
-            <Text style={styles.modalText}>
-              {this.props.text}
-            </Text>
-            <View style={styles.row100}>
-              <Button
-                style={styles.h100f50}
-                full success onPress={this.props.onSuccess}>
-                <Icon name="checkmark" style={styles.bigIcon}></Icon>
-              </Button>
-              <Button
-                style={styles.h100f50}
-                full danger onPress={this.props.onCancel}>
-                <Icon name="close" style={styles.bigIcon}></Icon>
-              </Button>
-            </View>
-          </Col>
-        </Grid> */}
       </Modal>
     )
   }

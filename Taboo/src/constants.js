@@ -5,3 +5,5 @@ export const defaultTeams = [
   {'name': 'Orange', 'colour': '#f78345'},
   {'name': 'Purple', 'colour': '#d552f9'},
 ]
+
+export const animationDuration = 300;

@@ -157,7 +157,7 @@ class Game extends Component {
             onCancel={() => {this.unpause()}}
             onSuccess={() => {
               this.unpause();
-              this.props.navigation.goBack();
+              this.props.navigation.navigate('Home');
             }}
           />
           <Animated.View style={[style.f1, {
