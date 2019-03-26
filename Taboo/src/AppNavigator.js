@@ -1,7 +1,7 @@
 import { Animated, Easing } from 'react-native';
 import { createStackNavigator } from 'react-navigation';
-import animationDuration from './constants';
 
+import animationDuration from './constants';
 import Home from './screens/Home';
 import NewGame from './screens/NewGame';
 import Settings from './screens/Settings';
@@ -10,7 +10,7 @@ import Game from './screens/Game';
 const customTransition = ({ position, layout, scene, scenes, index }) => {
   return {
     transitionSpec: {
-      duration: 300,
+      duration: animationDuration,
       easing: Easing.out(Easing.poly(4)),
       timing: Animated.timing,
       useNativeDriver: true,
@@ -31,8 +31,8 @@ const customTransition = ({ position, layout, scene, scenes, index }) => {
       let translateXMulti;
       if (!isNaN(thisSceneIndex)) {
         translateXMulti = position.interpolate({
-          inputRange: [0, thisSceneIndex],
-          outputRange: [width, 0],
+          inputRange: [0, thisSceneIndex, thisSceneIndex + 1],
+          outputRange: [width, 0, 0],
         });
       }
 

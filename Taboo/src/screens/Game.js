@@ -159,6 +159,8 @@ class Game extends Component {
               this.unpause();
               this.props.navigation.navigate('Home');
             }}
+            animationIn="fadeInRight"
+            animationOut="fadeOutRight"
           />
           <Animated.View style={[style.f1, {
             backgroundColor: state.background.interpolate({
@@ -207,8 +209,7 @@ class Game extends Component {
                 <View style={{flex: 1}} />
                 <View>
                   <ConfirmButtons
-                    light
-                    yesIcon='checkmark' neutralIcon='fastforward' noIcon='close'
+                    light yesIcon='checkmark' neutralIcon='fastforward' noIcon='close'
                     yesPress={() => {
                       props.increment(currentTeam);
                     }}

@@ -12,6 +12,7 @@ export default class ConfirmButtons extends React.Component {
       neutralIcon: null,
       neutralPress: null,
       width: 120,
+      justifyContent: 'space-between',
   }
 
   render() {
@@ -31,8 +32,8 @@ export default class ConfirmButtons extends React.Component {
     }
 
     return (
-      <View style={[style, { height: 60, justifyContent: 'center' }]}>
-        <View style={{ flexDirection: 'row', justifyContent: 'space-evenly' }}>
+      <View style={[{ height: 60}, style]}>
+        <View style={{ flexDirection: 'row', justifyContent: otherProps.justifyContent }}>
           <Button
             style={{width: width}} icon={otherProps.yesIcon} onPress={otherProps.yesPress} success={otherProps.coloured}
             disabled={otherProps.yesDisabled}

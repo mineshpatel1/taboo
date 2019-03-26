@@ -95,6 +95,7 @@ export default class SettingsForm extends Component {
           coloured={props.coloured}
           yesText={props.yesText}
           noText={props.noText}
+          justifyContent='space-evenly'
         />
       </View>
     )
