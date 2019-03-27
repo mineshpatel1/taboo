@@ -12,9 +12,18 @@ export default class CustomModal extends Component {
     height: 450,
     animationIn: 'fadeInUp',
     animationOut: 'fadeOutDown',
+    theme: false,
   }
   render() {
     const sidePadding = 35;
+    let bgColour = colours.white;
+    let crossColour = colours.danger;
+
+    if (this.props.theme) {
+      bgColour = colours.primary;
+      crossColour = colours.white;
+    }
+
     return (
       <Modal
         isVisible={this.props.isVisible}
@@ -31,8 +40,7 @@ export default class CustomModal extends Component {
         <View style={[
           {
             width: this.props.width, height: this.props.height,
-            backgroundColor: colours.white, borderRadius: 5,
-            // elevation: 5,
+            backgroundColor: bgColour, borderRadius: 5,
           },
         ]}>
           <View style={{
@@ -41,7 +49,7 @@ export default class CustomModal extends Component {
             justifyContent: 'flex-end', alignItems: 'center',
           }}>
             <TouchableOpacity onPress={this.props.onCancel}>
-              <Icon style={{fontSize: 30, color: colours.danger}} name={'close'} />
+              <Icon style={{fontSize: 30, color: crossColour}} name={'close'} />
             </TouchableOpacity>
           </View>
           <View style={{

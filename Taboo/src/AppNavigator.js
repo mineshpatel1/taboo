@@ -53,7 +53,7 @@ const AppNavigator = createStackNavigator({
   Game: { screen: Game, navigationOptions: {title: "Play Taboo", header: null} },
 },
 {
-  initialRouteName: "Home",
+  initialRouteName: "NewGame",
   transitionConfig: (nav) => customTransition(nav),
 });
 

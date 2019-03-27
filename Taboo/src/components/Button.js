@@ -6,15 +6,16 @@ import { colours } from '../styles/colours';
 
 export default class Button extends Component {
   static defaultProps = {
-      btnColour: colours.lightBg,
-      fontColour: colours.black,
-      activeOpacity: 0.6,
+    btnRight: true,
+    btnColour: colours.lightBg,
+    fontColour: colours.black,
+    activeOpacity: 0.6,
   }
 
   render() {
     let { props } = this;
     let {
-      btnColour, fontColour, onPress, label, icon, style, success, danger,
+      btnColour, btnRight, fontColour, onPress, label, icon, style, success, danger,
       disabled, activeOpacity, ...otherProps
     } = props;
 
@@ -26,6 +27,12 @@ export default class Button extends Component {
       btnColour = colours.disabled;
       onPress = null;
       activeOpacity = 1;
+    }
+
+    if (btnRight) {
+      btnStyle = {alignItems: 'flex-end', marginRight: 15};
+    } else {
+      btnStyle = {alignItems: 'flex-start'};
     }
 
     return (
@@ -42,13 +49,13 @@ export default class Button extends Component {
               {paddingLeft: 30, borderRadius: 50, backgroundColor: btnColour,}
             ]}>
               <View style={[{
-                flex: 6, justifyContent: 'center', alignItems: 'flex-start',
+                flex: 2, justifyContent: 'center', alignItems: 'flex-start',
               }]}>
                 <Text style={coreStyle.sansSerif}>{label.toUpperCase()}</Text>
               </View>
               <View style={[{
-                flex: 2, justifyContent: 'center', alignItems: 'center',
-              }]}>
+                flex: 1, justifyContent: 'center',
+              }, btnStyle]}>
                 <Icon style={{fontSize: 24, color: fontColour}} name={icon} />
               </View>
             </View>

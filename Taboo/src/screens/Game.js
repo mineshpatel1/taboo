@@ -10,6 +10,7 @@ import ThemeContainer from '../components/ThemeContainer';
 import Header from '../components/Header';
 import ConfirmButtons from '../components/ConfirmButtons';
 import ConfirmModal from '../components/ConfirmModal';
+import Modal from '../components/Modal';
 import { increment, pass, decrement, nextTurn } from '../actions/GameActions';
 import utils from '../utils';
 import style from '../styles/Core';
@@ -31,13 +32,14 @@ class Game extends Component {
       progress: new Animated.Value(100),
       background: new Animated.Value(0),
       paused: false,
+      quit: false,
       timeRemaining: 0,
     };
   }
 
   onBack = () => {
     if (!this.props.game.gameOver()) {
-      this.pause();
+      this.quit();
       return true;
     } else {
       this.props.navigation.navigate('Home');
@@ -46,26 +48,30 @@ class Game extends Component {
   }
 
   pause = () => {
-    let _this = this;
-    _this.setState({ paused: true });
+    this.setState({ paused: true }, () => {
+      if (this.state.inPlay) {
+        this.timer.togglePaused();
+        this.state.progress.stopAnimation((val) => {
+          this.progressValue = val;
+        });
+      }
+    });
+  }
 
-    if (this.state.inPlay) {
-      this.timer.togglePaused();
-      this.state.progress.stopAnimation((val) => {
-        this.progressValue = val;
-      });
-    }
+  quit = () => {
+    this.setState({ quit: true }, this.pause);
   }
 
   unpause() {
-    this.setState({ paused: false });
-    if (this.state.inPlay) {
-      this.timer.togglePaused();
-      this.animateProgress(
-        0, this.progressValue * this.props.game.settings.roundLength * 10,
-        this.endRound
-      );
-    }
+    this.setState({ paused: false, quit: false, }, () => {
+      if (this.state.inPlay) {
+        this.timer.togglePaused();
+        this.animateProgress(
+          0, this.progressValue * this.props.game.settings.roundLength * 10,
+          this.endRound,
+        );
+      }
+    });
   }
 
   startRound = (currentTeam, roundLength) => {
@@ -150,17 +156,34 @@ class Game extends Component {
     return (
       <HandleBack onBack={this.onBack}>
         <ThemeContainer>
+          <Modal
+            isVisible={state.paused && !state.quit} onCancel={() => {this.unpause()}}
+            height={200} theme={true}
+          >
+            <View style={[style.f1, style.center]}>
+              <Button
+                label = 'Resume' icon='play'
+                onPress={() => {this.unpause()}}
+                width={250} style={{marginBottom: 15}}
+              />
+              <Button
+                label = 'Exit' icon='home'
+                onPress={() => {this.quit()}}
+                width={250}
+              />
+            </View>
+          </Modal>
+
           <ConfirmModal
             text={"Game progress will be lost.\n\nAre you sure you want to go back?"}
-            isVisible={state.paused}
-            onRequestClose={() => {this.unpause()}}
+            isVisible={state.paused && state.quit}
             onCancel={() => {this.unpause()}}
             onSuccess={() => {
               this.unpause();
               this.props.navigation.navigate('Home');
             }}
-            animationIn="fadeInRight"
-            animationOut="fadeOutRight"
+            animationIn="fadeInRight" animationOut="fadeOutRight"
+            theme={false}
           />
           <Animated.View style={[style.f1, {
             backgroundColor: state.background.interpolate({
@@ -206,7 +229,13 @@ class Game extends Component {
                     ))
                   }
                 </View>
-                <View style={{flex: 1}} />
+                <View style={[style.f1, style.center]}>
+                  <Button
+                    icon='pause' btnRight={false}
+                    style={{width: 100}}
+                    onPress={() => {this.pause()}}
+                  />
+                </View>
                 <View>
                   <ConfirmButtons
                     light yesIcon='checkmark' neutralIcon='fastforward' noIcon='close'
