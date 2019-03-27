@@ -59,7 +59,12 @@ class Game extends Component {
   }
 
   quit = () => {
-    this.setState({ quit: true }, this.pause);
+    this.setState({ quit: true }, () => {
+      console.log('Has quit', this.state.paused, this.state.quit)
+      if (!this.state.paused) {
+        this.pause();
+      }
+    });
   }
 
   unpause() {

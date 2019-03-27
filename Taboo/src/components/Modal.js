@@ -36,6 +36,7 @@ export default class CustomModal extends Component {
         style={[style.center]}
         backdropOpacity={0.75}
         useNativeDriver={true}
+        hideModalContentWhileAnimating
       >
         <View style={[
           {

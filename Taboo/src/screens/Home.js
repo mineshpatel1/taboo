@@ -109,7 +109,7 @@ class Home extends React.Component {
         >
           <Animated.View style={{
             flexDirection: 'row', width: (this.state.width * (info.length + 1)), height: 300,
-            translateX: this.state.margin,
+            transform: [{translateX: this.state.margin}],
           }}>
             {
               info.map((txt, i) => (
