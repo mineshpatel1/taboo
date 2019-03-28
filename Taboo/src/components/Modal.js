@@ -10,8 +10,8 @@ export default class CustomModal extends Component {
   static defaultProps = {
     width: 350,
     height: 450,
-    animationIn: 'fadeInUp',
-    animationOut: 'fadeOutDown',
+    animationIn: 'slideInRight',
+    animationOut: 'slideOutRight',
     theme: false,
   }
   render() {
@@ -37,6 +37,7 @@ export default class CustomModal extends Component {
         backdropOpacity={0.75}
         useNativeDriver={true}
         hideModalContentWhileAnimating
+        hardwareAccelerated
       >
         <View style={[
           {
