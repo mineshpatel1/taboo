@@ -58,7 +58,7 @@ class Home extends React.Component {
   }
 
   showInfo = () => {
-    this.setState({info: true});
+    this.setState({info: true, page: 0, margin: new Animated.Value(0)});
   }
 
   hideInfo = () => {

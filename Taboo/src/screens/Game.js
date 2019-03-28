@@ -13,6 +13,7 @@ import ConfirmModal from '../components/ConfirmModal';
 import Modal from '../components/Modal';
 import { increment, pass, decrement, nextTurn } from '../actions/GameActions';
 import utils from '../utils';
+import { colours } from '../styles/colours';
 import style from '../styles/Core';
 
 class Game extends Component {
@@ -34,12 +35,14 @@ class Game extends Component {
       paused: false,
       quit: false,
       timeRemaining: 0,
+      modalWidth: 280,
+      modalMargin: new Animated.Value(0),
     };
   }
 
   onBack = () => {
     if (!this.props.game.gameOver()) {
-      this.quit();
+      this.pause();
       return true;
     } else {
       this.props.navigation.navigate('Home');
@@ -48,7 +51,7 @@ class Game extends Component {
   }
 
   pause = () => {
-    this.setState({ paused: true }, () => {
+    this.setState({ paused: true, modalMargin: new Animated.Value(0) }, () => {
       if (this.state.inPlay) {
         this.timer.togglePaused();
         this.state.progress.stopAnimation((val) => {
@@ -58,17 +61,8 @@ class Game extends Component {
     });
   }
 
-  quit = () => {
-    this.setState({ quit: true }, () => {
-      console.log('Has quit', this.state.paused, this.state.quit)
-      if (!this.state.paused) {
-        this.pause();
-      }
-    });
-  }
-
   unpause() {
-    this.setState({ paused: false, quit: false, }, () => {
+    this.setState({ paused: false, }, () => {
       if (this.state.inPlay) {
         this.timer.togglePaused();
         this.animateProgress(
@@ -139,6 +133,17 @@ class Game extends Component {
     ).start();
   }
 
+  animatePage(dir) {
+    Animated.timing(
+      this.state.modalMargin,
+      {
+        toValue: -1 * dir * this.state.modalWidth,
+        duration: 200,
+        useNativeDriver: true,
+      }
+    ).start();
+  }
+
   render() {
     let { props, state } = this;
     let currentTeam = props.game.currentTeam();
@@ -162,24 +167,49 @@ class Game extends Component {
       <HandleBack onBack={this.onBack}>
         <ThemeContainer>
           <Modal
-            isVisible={state.paused && !state.quit} onCancel={() => {this.unpause()}}
-            height={200} theme={true}
+            isVisible={state.paused} onCancel={() => {this.unpause()}}
+            width={this.state.modalWidth + 70} height={350} theme={true}
           >
-            <View style={[style.f1, style.center]}>
-              <Button
-                label = 'Resume' icon='play'
-                onPress={() => {this.unpause()}}
-                width={250} style={{marginBottom: 15}}
-              />
-              <Button
-                label = 'Exit' icon='home'
-                onPress={() => {this.quit()}}
-                width={250}
-              />
-            </View>
+            <Animated.View style={{
+              flexDirection: 'row', width: (this.state.modalWidth * 2), height: 280,
+              transform: [{translateX: this.state.modalMargin}],
+            }}>
+              <View key={0} style={[style.center, {
+                width: this.state.modalWidth, padding: 10,
+              }]}>
+                <Button
+                  label = 'Resume' icon='play'
+                  onPress={() => {this.unpause()}}
+                  width={230} style={{marginBottom: 15}}
+                />
+                <Button
+                  label = 'Exit' icon='home'
+                  onPress={() => {this.animatePage(1)}}
+                  width={230}
+                />
+              </View>
+              <View key={1} style={{
+                width: this.state.modalWidth, padding: 10,
+              }}>
+                <View style={[style.center, {padding: 10, flex: 9}]}>
+                  <Text style={[style.modalText, { color: colours.white }]}>
+                    {"Game progress will be lost.\n\nAre you sure you want to quit?"}
+                  </Text>
+                </View>
+                <ConfirmButtons
+                  noPress={() => {this.unpause()}}
+                  yesPress={() => {
+                    this.unpause();
+                    this.props.navigation.navigate('Home');
+                  }}
+                  coloured={false}
+                  style={{width: this.state.modalWidth - 20}}
+                />
+              </View>
+            </Animated.View>
           </Modal>
 
-          <ConfirmModal
+          {/* <ConfirmModal
             text={"Game progress will be lost.\n\nAre you sure you want to go back?"}
             isVisible={state.paused && state.quit}
             onCancel={() => {this.unpause()}}
@@ -189,7 +219,7 @@ class Game extends Component {
             }}
             animationIn="fadeInRight" animationOut="fadeOutRight"
             theme={false}
-          />
+          /> */}
           <Animated.View style={[style.f1, {
             backgroundColor: state.background.interpolate({
               inputRange: utils.sequence(props.game.teams.length),
@@ -295,7 +325,7 @@ class Game extends Component {
                 </View>
                 {
                   !gameOver &&
-                    <View style={style.f1}>
+                    <View style={[style.f1, {marginBottom: 10}]}>
                       <View style={[style.f1, style.center]}>
                         <Text style={[style.serifHeading, style.lightText]}>{'ROUND ' + props.game.round().toString()}</Text>
                         <Text style={[style.lightText20]}>{'Guessing Team: ' + currentTeam.name}</Text>
@@ -310,7 +340,7 @@ class Game extends Component {
                 }
                 {
                   gameOver && (
-                    <View style={style.f1}>
+                    <View style={[style.f1, {marginBottom: 10}]}>
                       <View style={[style.f1, style.center]}>
                         <Text style={[style.light, style.serifHeading]}>{gameOverMsg}</Text>
                       </View>
